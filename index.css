@@ -1,0 +1,44 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+html,
+body {
+	overflow: hidden;
+}
+
+#showroom {
+	position: fixed;
+	top: 0;
+	left: 0;
+	outline: none;
+}
+
+.model-navigator {
+	position: fixed;
+	z-index: 1;
+	width: 70px;
+	height: 70px;
+	background: transparent;
+	outline: none;
+	border: none;
+	filter: invert(1);
+	margin: 1rem;
+	transition: all 0.5s ease;
+	cursor: pointer;
+
+}
+
+.model-navigator object{
+	position: relative;
+	z-index: -1;
+}
+
+.model-navigator:hover {
+	filter: none;
+}
+.model-navigator.next {
+	right: 0;
+	transform: rotate(180deg);
+}
