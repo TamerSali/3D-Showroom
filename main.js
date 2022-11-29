@@ -20,31 +20,17 @@ let {
 	cursor: { x, y },
 } = showroom;
 
+let currentModelIndex = 0;
 const canvas = document.querySelector("#showroom");
 const modelNavigators = document.querySelectorAll("[data-navigate]");
-const audio = document.querySelector("#audio");
 const scene = new THREE.Scene();
-let currentModelIndex = 0;
-
+const texture = new THREE.TextureLoader().load("./assets/garage.jpeg");
 const camera = new THREE.PerspectiveCamera(60, width / height);
-camera.position.set(4, 1.5, 5);
-
-scene.position.set(0, -1.6, 0);
-scene.add(camera);
-lights.forEach((light) => scene.add(light));
-
 const controls = new OrbitControls(camera, canvas);
-controls.minPolarAngle = 1.35
-controls.maxPolarAngle = 1.35
-
-controls.autoRotate = true;
 
 const renderer = new THREE.WebGLRenderer({
 	canvas: canvas,
 });
-
-const texture = new THREE.TextureLoader().load("./assets/garage.jpeg");
-scene.background = texture;
 
 const updateRenderer = () => {
 	renderer.setSize(width, height);
@@ -72,7 +58,20 @@ const tick = () => {
 	window.requestAnimationFrame(tick);
 };
 
+camera.position.set(4, 1.5, 5);
+
+scene.position.set(0, -1.6, 0);
+scene.background = texture;
+scene.add(camera);
+
+lights.forEach((light) => scene.add(light));
+
+controls.minPolarAngle = 1.35
+controls.maxPolarAngle = 1.35
+controls.autoRotate = true;
+
 updateRenderer();
+
 // Events
 window.addEventListener("resize", updateCameraSize);
 canvas.addEventListener("mousemove", updateCursor);
