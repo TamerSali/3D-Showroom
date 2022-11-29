@@ -11,15 +11,16 @@
 
 <body>
   <audio src="./assets/riders-on-the-storm.mp3" id="audio" loop="loop" autoplay="autoplay"></audio>
-
-  <button class="model-navigator prev" aria-label="Prev car" data-navigate="-1">
-    <object data="./assets/turn-left.svg" type="image/svg+xml"></object>
-  </button>
-  <button class="model-navigator next" aria-label="Next car" data-navigate="1">
-    <object data="./assets/turn-left.svg" type="image/svg+xml"></object>
-  </button>
-
+  <div class="model-controls">
+    <button class="model-navigator prev" aria-label="Prev model" data-navigate="-1">
+      <img loading="lazy" src="./assets/turn-left.svg" alt="Load previous model" width="70" height="70">
+    </button>
+    <button class="model-navigator next" aria-label="Next model" data-navigate="1">
+      <img loading="lazy" src="./assets/turn-left.svg" alt="Load next model" width="70" height="70">
+    </button>
+  </div>
   <canvas id="showroom"></canvas>
   <script type="module" src="/main.js"></script>
 </body>
+
 </html>
