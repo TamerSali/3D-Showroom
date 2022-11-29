@@ -40,6 +40,9 @@ export const render3dModel = (index, scene) => {
 		const model = gltf.scene;
 		model.scale.set(...scale);
 		model.name = name;
+		model.castShadow = true;
+		model.receiveShadow = true;
+		console.log(model)
 		scene.add(model);
 		toggleSceneObjects(scene, model.name);
 	});

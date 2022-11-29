@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { lights } from "./src/lights";
-import { render3dModel } from "./src/models";
+import { render3dModel, models } from "./src/models";
 import * as dat from "dat.gui";
 
 const showroom = {
@@ -30,6 +30,7 @@ const controls = new OrbitControls(camera, canvas);
 
 const renderer = new THREE.WebGLRenderer({
 	canvas: canvas,
+	alpha: true
 });
 
 const updateRenderer = () => {
@@ -78,7 +79,11 @@ canvas.addEventListener("mousemove", updateCursor);
 modelNavigators.forEach((navigator) => {
 	navigator.addEventListener("click", () => {
 		currentModelIndex += +navigator.dataset.navigate;
-		render3dModel(currentModelIndex, scene);
+		if(models[currentModelIndex] === undefined){
+			currentModelIndex -= +navigator.dataset.navigate;
+ 			return;
+		}
+ 		render3dModel(currentModelIndex, scene);
 	});
 });
 render3dModel(currentModelIndex, scene);
