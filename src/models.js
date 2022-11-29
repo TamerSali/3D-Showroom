@@ -2,21 +2,21 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 const loader = new GLTFLoader();
 
-const models = [
+export const models = [
 	{
 		name: "Nissan 350z",
 		asset_url: "./assets/n_350z.glb",
-		scale: [1.5, 1.5, 1.5],
+		scale: [1.3, 1.3, 1.3],
 	},
 	{
 		name: "Skyline R34",
 		asset_url: "./assets/s_r34.glb",
-		scale: [1.2, 1.3, 1.2],
+		scale: [1.1, 1.15, 1.3],
 	},
-    {
+	{
 		name: "BMW M3",
 		asset_url: "./assets/b_m3.glb",
-		scale: [1.25, 1.25, 1.25],
+		scale: [1.1, 1.2, 1.3],
 	},
 ];
 const toggleSceneObjects = (scene, name) => {
@@ -37,12 +37,15 @@ export const render3dModel = (index, scene) => {
 	}
 
 	loader.load(asset_url, function (gltf) {
-		const model = gltf.scene;
+		const model = gltf.scene.children[0];
 		model.scale.set(...scale);
 		model.name = name;
-		model.castShadow = true;
-		model.receiveShadow = true;
-		console.log(model)
+		model.traverse((n) => {
+			if (n.isMesh) {
+				n.castShadow = true;
+				n.receiveShadow = true;
+			}
+		});
 		scene.add(model);
 		toggleSceneObjects(scene, model.name);
 	});
