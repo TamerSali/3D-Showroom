@@ -24,13 +24,23 @@ let currentModelIndex = 0;
 const canvas = document.querySelector("#showroom");
 const modelNavigators = document.querySelectorAll("[data-navigate]");
 const scene = new THREE.Scene();
-const texture = new THREE.TextureLoader().load("./assets/garage.jpeg");
+const backgroundTexture = new THREE.TextureLoader().load("./assets/street.jpeg");
+const platform = new THREE.TextureLoader().load("./assets/platform.jpg");
+backgroundTexture.minFilter = THREE.NearestFilter;
+platform.minFilter = THREE.NearestFilter;
+
+const geometry = new THREE.CircleGeometry(4.5, 100);
+const material = new THREE.MeshBasicMaterial({
+	color: 0xffffff,
+	side: THREE.DoubleSide,
+	map: platform
+});
+const circle = new THREE.Mesh(geometry, material);
 const camera = new THREE.PerspectiveCamera(60, width / height);
 const controls = new OrbitControls(camera, canvas);
 
 const renderer = new THREE.WebGLRenderer({
 	canvas: canvas,
-	alpha: true
 });
 
 const updateRenderer = () => {
@@ -48,42 +58,41 @@ const updateCameraSize = () => {
 	updateRenderer();
 };
 
-const updateCursor = (event) => {
-	x = event.clientX / width - 0.5;
-	y = -(event.clientY / height - 0.5);
-};
-
 const tick = () => {
 	controls.update();
 	renderer.render(scene, camera);
 	window.requestAnimationFrame(tick);
 };
 
-camera.position.set(4, 1.5, 5);
-
+camera.position.set(0, 1.5, 6.5);
 scene.position.set(0, -1.6, 0);
-scene.background = texture;
+scene.background = backgroundTexture;
+circle.rotation.x = Math.PI / 2;
+circle.receiveShadow = true;
+circle.castShadow = true;
+
+scene.add(circle);
 scene.add(camera);
 
 lights.forEach((light) => scene.add(light));
 
-controls.minPolarAngle = 1.35
-controls.maxPolarAngle = 1.35
+controls.minPolarAngle = 1.25;
+controls.maxPolarAngle = 1.25;
+// controls.enableZoom = false;
 controls.autoRotate = true;
 
 updateRenderer();
 
 // Events
 window.addEventListener("resize", updateCameraSize);
-canvas.addEventListener("mousemove", updateCursor);
 modelNavigators.forEach((navigator) => {
 	navigator.addEventListener("click", () => {
 		currentModelIndex += +navigator.dataset.navigate;
-		if(models[currentModelIndex] === undefined){
+		if (models[currentModelIndex] === undefined) {
 			currentModelIndex -= +navigator.dataset.navigate;
- 			return;
+			return;
 		}
- 		render3dModel(currentModelIndex, scene);
+		render3dModel(currentModelIndex, scene);
 	});
 });
 render3dModel(currentModelIndex, scene);
