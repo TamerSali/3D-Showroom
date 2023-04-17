@@ -2,7 +2,6 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { lights } from "./src/lights";
 import { render3dModel, models } from "./src/models";
-import * as dat from "dat.gui";
 
 const showroom = {
 	sizes: {
