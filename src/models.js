@@ -1,6 +1,7 @@
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 const loader = new GLTFLoader();
+const audio = document.querySelector('#audio')
 
 const models = [
 
@@ -43,7 +44,7 @@ const render3dModel = (index, scene) => {
 	}
 
 	loader.load(asset_url, function (gltf) {
-		console.log(gltf)
+		audio?.play()
 		const model = gltf.scene.children[0];
 		model.scale.set(...scale);
 		model.position.set(...position);
