@@ -8,8 +8,10 @@ const setLoadingScreen = () => {
 
 const removeLoadingScreen = () => {
     if (!loadingScreen) return;
-    loadingScreen.remove();
+    loadingScreen.style.cssText="transform: scale(3); opacity: 0;"
 }
+
+loadingScreen.addEventListener('transitionend', () => loadingScreen.remove())
 
 export {
     loadingScreen,
