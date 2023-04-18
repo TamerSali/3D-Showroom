@@ -1,7 +1,8 @@
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { removeLoadingScreen } from "./loading-screen";
 
+const audio = document.querySelector('#audio');
 const loader = new GLTFLoader();
-const audio = document.querySelector('#audio')
 
 const models = [
 
@@ -25,6 +26,38 @@ const models = [
 		position: [0, 0.25, -0.1],
 	},
 ];
+
+const loadAsync = url => {
+	return new Promise(resolve => {
+		loader.load(url, gltf => {
+			resolve(gltf)
+		})
+	})
+}
+
+const loadModels = (scene) => {
+
+	const promises = models.map(model => loadAsync(model.asset_url));
+
+	Promise.all(promises)
+		.then(result => {
+			result.forEach((gltf, idx) => {
+				const { name, scale, position } = models[idx];
+				const model = gltf.scene.children[0];
+				model.scale.set(...scale);
+				model.position.set(...position);
+				model.name = name;
+				scene.add(model);
+				updateAllMaterials(scene)
+			})
+
+			toggleSceneObjects(scene, models[0].name)
+			removeLoadingScreen()
+			audio?.play()
+		})
+
+}
+
 const toggleSceneObjects = (scene, name) => {
 	scene.children.forEach((object) => {
 		if (object?.name) {
@@ -35,7 +68,7 @@ const toggleSceneObjects = (scene, name) => {
 
 const render3dModel = (index, scene) => {
 	if (models[index] === undefined) return;
-	const { name, asset_url, scale, position } = models[index];
+	const { name } = models[index];
 	const alreadyAdded = scene.children.find((element) => element?.name === name);
 	if (alreadyAdded) {
 		alreadyAdded.visible = true;
@@ -43,16 +76,7 @@ const render3dModel = (index, scene) => {
 		return;
 	}
 
-	loader.load(asset_url, function (gltf) {
-		audio?.play()
-		const model = gltf.scene.children[0];
-		model.scale.set(...scale);
-		model.position.set(...position);
-		model.name = name;
-		scene.add(model);
-		toggleSceneObjects(scene, model.name);
-		updateAllMaterials(scene)
-	});
+	loadModels(scene)
 };
 
 
