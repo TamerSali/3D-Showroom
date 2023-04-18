@@ -35,7 +35,7 @@ const loadAsync = url => {
 	})
 }
 
-const loadModels = (scene) => {
+const loadModels = (scene, index) => {
 
 	const promises = models.map(model => loadAsync(model.asset_url));
 
@@ -51,7 +51,7 @@ const loadModels = (scene) => {
 				updateAllMaterials(scene)
 			})
 
-			toggleSceneObjects(scene, models[0].name)
+			toggleSceneObjects(scene, models[index].name)
 			removeLoadingScreen()
 			audio?.play()
 		})
@@ -76,7 +76,7 @@ const render3dModel = (index, scene) => {
 		return;
 	}
 
-	loadModels(scene)
+	loadModels(scene, index)
 };
 
 
