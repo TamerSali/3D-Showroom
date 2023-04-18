@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { lights } from "./src/lights";
 import { render3dModel, models } from "./src/models";
+import { setLoadingScreen } from "./src/loading-screen";
 
 const showroom = {
 	sizes: {
@@ -31,7 +32,7 @@ platform.repeat.x = 2
 platform.wrapS = THREE.RepeatWrapping;
 
 const geometry = new THREE.CircleGeometry(4.5, 100);
-const material = new THREE.MeshBasicMaterial({
+const material = new THREE.MeshStandardMaterial({
 	color: 0xffffff,
 	side: THREE.DoubleSide,
 	map: platform,
@@ -110,3 +111,5 @@ modelNavigators.forEach((navigator) => {
 });
 render3dModel(currentModelIndex, scene);
 tick();
+
+setLoadingScreen();
