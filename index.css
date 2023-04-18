@@ -3,16 +3,19 @@
 	margin: 0;
 	padding: 0;
 }
+
 html,
 body {
 	overflow: hidden;
 }
+
 #showroom {
 	position: fixed;
 	top: 0;
 	left: 0;
 	outline: none;
 }
+
 .model-controls {
 	position: fixed;
 	z-index: 1;
@@ -24,6 +27,7 @@ body {
 	pointer-events: none;
 	padding: 1rem;
 }
+
 .model-navigator {
 	pointer-events: all;
 	background: transparent;
@@ -33,10 +37,42 @@ body {
 	transition: all 0.5s ease;
 	cursor: pointer;
 }
+
 .model-navigator:hover {
 	filter: none;
 }
+
 .model-navigator.next {
 	right: 0;
 	transform: rotate(180deg);
+}
+
+
+.loading-screen {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgb(15, 15, 15);
+	z-index: 2;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.loading-screen img {
+	mix-blend-mode: difference;
+	animation: loading 1.5s linear infinite;
+}
+
+@keyframes loading {
+	from {
+		filter: brightness(0)
+	}
+
+	to {
+		filter: brightness(1)
+	}
+
 }
